@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elementos de Química | Clase 9: Termodinámica</title>
+    <style>
+        /* ===== VARIABLES Y RESET (idénticas al original) ===== */
+        :root {
+            --eq-gold: #E8B800;
+            --eq-dark: #0B2A3A;
+            --eq-blue: #1A4A5A;
+            --eq-light: #2A6A7A;
+            --accent: #E94560;
+            --text: #1e3c4a;
+            --white: #ffffff;
+            --sand: #f4e9c1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e8f0f2 0%, #c8d8dc 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, var(--eq-dark) 0%, var(--eq-light) 100%);
+            color: var(--white);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 6px 20px var(--shadow);
+            border-bottom: 5px solid var(--eq-gold);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+        .logo-EQ {
+            width: 120px;
+            height: auto;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.2rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            color: var(--eq-gold);
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* ===== NAV ===== */
+        .nav-container {
+            background: var(--eq-dark);
+            padding: 0.8rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .nav-btn {
+            background: var(--white);
+            color: var(--eq-dark);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            font-size: 0.95rem;
+        }
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: var(--eq-gold);
+            color: var(--eq-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* ===== CONTENEDOR ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px var(--shadow);
+            border-left: 6px solid var(--eq-gold);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        h2 {
+            color: var(--eq-blue);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid var(--eq-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 2rem;
+        }
+        h3 {
+            color: var(--eq-light);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* ===== CAJAS DE INFORMACIÓN ===== */
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 5px solid #2196f3;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .tip-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            border-left: 5px solid #ffc107;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .bio-box {
+            background: linear-gradient(135deg, #d1ecf1 0%, #a8dadc 100%);
+            border-left: 5px solid #17a2b8;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .pharma-box {
+            background: linear-gradient(135deg, #f8d7da 0%, #f1aeb5 100%);
+            border-left: 5px solid #dc3545;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .problem-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 5px solid #28a745;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* ===== TABLAS ===== */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            min-width: 500px;
+        }
+        th {
+            background: linear-gradient(135deg, var(--eq-blue), var(--eq-light));
+            color: var(--white);
+            padding: 1rem 1.2rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover td {
+            background: #f8fff0;
+        }
+
+        /* ===== PESTAÑAS INTERNAS ===== */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .tab {
+            background: var(--sand);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            background: var(--eq-gold);
+            color: var(--eq-dark);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* ===== CALCULADORAS ===== */
+        .calculator {
+            background: linear-gradient(135deg, #fff9f5 0%, #fff0e8 100%);
+            border: 3px solid var(--eq-gold);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .calc-title {
+            color: var(--eq-blue);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .calc-input-group {
+            margin: 1rem 0;
+        }
+        .calc-input-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+        .calc-input-group input,
+        .calc-input-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--sand);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .calc-input-group input:focus,
+        .calc-input-group select:focus {
+            outline: none;
+            border-color: var(--eq-gold);
+        }
+        .calc-button {
+            background: var(--eq-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .calc-button:hover {
+            background: var(--eq-gold);
+            color: var(--eq-dark);
+            transform: translateY(-2px);
+        }
+        .calc-result {
+            background: var(--white);
+            border-left: 5px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            display: none;
+        }
+        .calc-result.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== FLASHCARDS ===== */
+        .fc-stats {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .fc-stat {
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+        .fc-stat.good {
+            background: #28a745;
+        }
+        .fc-stat.bad {
+            background: #dc3545;
+        }
+        .fc-stat.pending {
+            background: #6c757d;
+        }
+        .fc-stat.total {
+            background: var(--eq-light);
+        }
+        .fc-progress {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+        }
+        .fc-progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--eq-gold), var(--accent));
+            transition: width 0.4s;
+        }
+        .flashcard-scene {
+            perspective: 1400px;
+            max-width: 720px;
+            height: 320px;
+            margin: 0 auto 1.5rem;
+        }
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .fc-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: auto;
+            box-shadow: 0 8px 24px var(--shadow);
+            font-size: 1.15rem;
+        }
+        .fc-front {
+            background: linear-gradient(135deg, var(--eq-blue), var(--eq-light));
+            color: #fff;
+            border: 3px solid var(--eq-gold);
+        }
+        .fc-back {
+            background: linear-gradient(135deg, #fff9e6, var(--sand));
+            color: var(--text);
+            border: 3px solid var(--eq-gold);
+            transform: rotateY(180deg);
+        }
+        .fc-label {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        .fc-hint {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            font-style: italic;
+        }
+        .fc-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .fc-btn {
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #fff;
+        }
+        .fc-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .fc-btn.good {
+            background: #28a745;
+        }
+        .fc-btn.bad {
+            background: #dc3545;
+        }
+        .fc-btn:not(:disabled):hover {
+            transform: translateY(-3px);
+        }
+        .fc-link {
+            background: none;
+            border: none;
+            color: #6c757d;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        /* ===== MAPA CONCEPTUAL ===== */
+        .map-container {
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+        .map-tree,
+        .map-tree ul {
+            list-style: none;
+        }
+        .map-tree ul {
+            display: none;
+            padding-left: 1.6rem;
+            margin-top: 0.6rem;
+            border-left: 3px solid var(--eq-gold);
+        }
+        .map-tree li.open>ul {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        .map-tree li {
+            margin: 0.4rem 0;
+        }
+        .map-node {
+            display: inline-block;
+            background: var(--eq-blue);
+            color: #fff;
+            padding: 0.6rem 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .map-node:hover {
+            background: var(--eq-gold);
+            color: var(--eq-dark);
+            transform: translateX(4px);
+        }
+        .map-node.root {
+            background: var(--accent);
+            font-size: 1.15rem;
+        }
+        .map-node.branch {
+            background: var(--eq-light);
+        }
+        .map-leaf {
+            display: inline-block;
+            background: var(--sand);
+            color: var(--text);
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border: 2px solid var(--eq-gold);
+        }
+        li.has-children>.map-node::before {
+            content: '▶ ';
+            font-size: 0.8em;
+        }
+        li.has-children.open>.map-node::before {
+            content: '▼ ';
+            font-size: 0.8em;
+        }
+
+        /* ===== GLOSARIO ===== */
+        .glossary-term {
+            background: var(--white);
+            border: 2px solid var(--eq-gold);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .glossary-term:hover {
+            background: #fff9e6;
+            transform: translateX(5px);
+        }
+        .glossary-definition {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--eq-gold);
+        }
+        .glossary-definition.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== ERRORES ===== */
+        .error-card {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffb3b3 100%);
+            border-left: 5px solid #dc3545;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .error-title {
+            color: #dc3545;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .correction {
+            background: #d4edda;
+            border-left: 3px solid #28a745;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* ===== QUIZ ===== */
+        .quiz-container {
+            background: linear-gradient(135deg, var(--eq-blue) 0%, var(--eq-light) 100%);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .quiz-question {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .quiz-option {
+            background: var(--white);
+            color: var(--text);
+            border: 3px solid transparent;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .quiz-option:hover {
+            border-color: var(--eq-gold);
+            transform: translateY(-3px);
+        }
+        .quiz-option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #2e7d32;
+        }
+        .quiz-option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #c62828;
+        }
+        .quiz-option:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .quiz-feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .quiz-progress span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--eq-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            margin-top: 3rem;
+            border-top: 5px solid var(--eq-gold);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            h3 {
+                font-size: 1.2rem;
+            }
+            .logo-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .logo-EQ {
+                width: 80px;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+            .nav-buttons {
+                gap: 0.4rem;
+            }
+            .nav-btn {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.8rem;
+            }
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 0.5rem;
+            }
+            .tab {
+                flex-shrink: 0;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            .flashcard-scene {
+                height: 360px;
+            }
+            .fc-face {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+            .fc-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            .fc-btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.4rem;
+            }
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            header {
+                padding: 1rem;
+            }
+            .card {
+                padding: 1rem;
+            }
+            .nav-btn {
+                padding: 0.4rem 0.7rem;
+                font-size: 0.75rem;
+            }
+        }
+        /* ===== IMÁGENES ===== */
+        .img-container {
+            text-align: center;
+            margin: 1.8rem 0;
+        }
+        .img-container img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .card ul,
+        .info-box ul,
+        .bio-box ul,
+        .pharma-box ul {
+            padding-left: 1.8rem;
+            margin: 0.6rem 0;
+        }
+        .card ul ul,
+        .info-box ul ul {
+            padding-left: 2.2rem;
+            margin-top: 0.2rem;
+            margin-bottom: 0.4rem;
+            list-style-type: circle;
+        }
+        .card li,
+        .info-box li {
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+        }
+        .card li strong,
+        .info-box li strong {
+            display: inline-block;
+            margin-right: 0.3rem;
+        }
+        .img-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .img-grid figure {
+            max-width: 200px;
+            text-align: center;
+            background: var(--white);
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .img-grid figure img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .img-grid figcaption {
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            font-weight: 600;
+        }
+        .formula-box {
+            background: var(--white);
+            border: 2px solid var(--eq-gold);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--eq-dark);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="Logo-EQ.png" alt="Logo eq" class="logo-EQ" />
+            <div>
+                <h1>Elementos de Química</h1>
+                <p class="subtitle">Comprender la materia - Cuidar la vida</p>
+                <p class="subtitle">Clase 9: Termodinámica</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-container">
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="showSection('inicio',this)">🏠 Inicio</button>
+            <button class="nav-btn" onclick="showSection('conceptos',this)">📚 Conceptos</button>
+            <button class="nav-btn" onclick="showSection('mapa',this)">🗺️ Mapa</button>
+            <button class="nav-btn" onclick="showSection('flashcards',this)">🃏 Flashcards</button>
+            <button class="nav-btn" onclick="showSection('herramientas',this)">🧮 Herramientas</button>
+            <button class="nav-btn" onclick="showSection('aplicaciones',this)">🏥 Aplicaciones</button>
+            <button class="nav-btn" onclick="showSection('mnemotecnias',this)">🧠 Nemotecnias</button>
+            <button class="nav-btn" onclick="showSection('glosario',this)">📖 Glosario</button>
+            <button class="nav-btn" onclick="showSection('errores',this)">⚠️ Errores</button>
+            <button class="nav-btn" onclick="showSection('bibliografia',this)">📚 Bibliografía</button>
+            <button class="nav-btn" onclick="showSection('quiz',this)">🎯 Quiz</button>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- ==================== INICIO ==================== -->
+        <section id="inicio" class="section active">
+            <div class="card">
+                <h2>🎯 Objetivos de la Clase 9</h2>
+                <div class="info-box">
+                    <ul style="font-size:1.1rem; line-height:2;">
+                        <li>✓ Conocer los conceptos de <strong>entalpía</strong>, <strong>entropía</strong> y <strong>energía libre de Gibbs</strong>.</li>
+                        <li>✓ Calcular las variaciones de entalpía, entropía y energía libre en una reacción.</li>
+                        <li>✓ Diferenciar entre reacciones <strong>exotérmicas</strong> y <strong>endotérmicas</strong>, y entre <strong>exergónicas</strong> y <strong>endergónicas</strong>.</li>
+                        <li>✓ Predecir la <strong>espontaneidad</strong> de las reacciones químicas.</li>
+                    </ul>
+                </div>
+                <h3>🩺 Relevancia para las Ciencias de la Salud</h3>
+                <div class="bio-box">
+                    <strong>¿Por qué es importante la termodinámica en salud?</strong><br>
+                    Los procesos vitales están gobernados por la energía:
+                    <ul style="margin-top:0.8rem;">
+                        <li>• El <strong>metabolismo</strong> celular (catabolismo y anabolismo) implica reacciones exergónicas y endergónicas acopladas.</li>
+                        <li>• La <strong>fiebre</strong> altera la velocidad de las reacciones enzimáticas y la estabilidad de proteínas.</li>
+                        <li>• La <strong>termorregulación</strong> del cuerpo mantiene la temperatura óptima para las reacciones.</li>
+                        <li>• Los <strong>medicamentos</strong> y su acción farmacológica dependen de la energía de activación y la afinidad (ΔG).</li>
+                    </ul>
+                </div>
+                <div class="img-container">
+                    <!-- IMAGEN: termodinamica-salud.png → metabolismo, termómetro, etc. -->
+                    <img src="termodinamica-salud.png" alt="Termodinámica en salud" style="max-width:600px;">
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CONCEPTOS ==================== -->
+        <section id="conceptos" class="section">
+            <div class="card">
+                <h2>📚 Conceptos Fundamentales</h2>
+                <div id="conceptos-tabs" class="tab-group">
+                    <div class="tabs">
+                        <button class="tab active" onclick="showTab('conceptos-tabs','sub-definicion',this)">🔬 Definiciones</button>
+                        <button class="tab" onclick="showTab('conceptos-tabs','sub-entalpia',this)">🔥 Entalpía</button>
+                        <button class="tab" onclick="showTab('conceptos-tabs','sub-entropia',this)">🌀 Entropía</button>
+                        <button class="tab" onclick="showTab('conceptos-tabs','sub-gibbs',this)">⚡ Energía libre</button>
+                        <button class="tab" onclick="showTab('conceptos-tabs','sub-espontaneidad',this)">🧭 Espontaneidad</button>
+                    </div>
+
+                    <!-- Definiciones básicas -->
+                    <div id="sub-definicion" class="tab-content active">
+                        <h3>Termodinámica y sus componentes</h3>
+                        <p>La <strong>termodinámica</strong> estudia la conversión de calor y otras formas de energía en procesos físicos y químicos.</p>
+                        <div class="info-box">
+                            <strong>Sistema, entorno y universo:</strong>
+                            <ul>
+                                <li><strong>Sistema:</strong> parte del universo que se estudia (ej. los reactivos en un matraz).</li>
+                                <li><strong>Entorno:</strong> todo lo que rodea al sistema (ej. el aire, el matraz).</li>
+                                <li><strong>Universo:</strong> sistema + entorno.</li>
+                            </ul>
+                        </div>
+                        <div class="tip-box">
+                            <strong>Ejemplo en salud:</strong> Cuando sudamos, el cuerpo (sistema) libera calor al entorno (aire) para regular la temperatura.
+                        </div>
+                        <div class="img-container">
+                            <!-- IMAGEN: sistema-entorno.png → diagrama de sistema y entorno -->
+                            <img src="sistema-entorno.png" alt="Sistema y entorno" style="max-width:400px;">
+                        </div>
+                    </div>
+
+                    <!-- Entalpía -->
+                    <div id="sub-entalpia" class="tab-content">
+                        <h3>Entalpía (H)</h3>
+                        <p>La <strong>entalpía</strong> es el calor que un sistema intercambia con su entorno a <strong>presión constante</strong>. Es una función de estado y propiedad extensiva.</p>
+                        <div class="formula-box">
+                            ΔH<sub>Rx</sub> = ∑ ΔH<sub>productos</sub> − ∑ ΔH<sub>reactantes</sub>
+                        </div>
+                        <div class="info-box">
+                            <strong>Clasificación de reacciones según ΔH:</strong>
+                            <ul>
+                                <li><strong>Endotérmica:</strong> ΔH > 0 (absorbe calor). Ejemplo: disolución de NH₄NO₃ en agua (compresas frías).</li>
+                                <li><strong>Exotérmica:</strong> ΔH < 0 (libera calor). Ejemplo: combustión de glucosa en el metabolismo.</li>
+                            </ul>
+                        </div>
+                        <div class="img-container">
+                            <!-- IMAGEN: diagrama-entalpia.png → gráfico de entalpía para reacciones -->
+                            <img src="diagrama-entalpia.png" alt="Diagrama de entalpía" style="max-width:450px;">
+                        </div>
+                        <div class="bio-box">
+                            <strong>Ejemplo en salud:</strong> La oxidación de nutrientes (glucosa) es exotérmica y proporciona energía para el cuerpo.
+                        </div>
+                    </div>
+
+                    <!-- Entropía -->
+                    <div id="sub-entropia" class="tab-content">
+                        <h3>Entropía (S)</h3>
+                        <p>La <strong>entropía</strong> mide el <strong>desorden</strong> o aleatoriedad de un sistema. A mayor desorden, mayor entropía.</p>
+                        <div class="formula-box">
+                            ΔS°<sub>Rx</sub> = ∑ S°<sub>productos</sub> − ∑ S°<sub>reactantes</sub>
+                        </div>
+                        <div class="info-box">
+                            <ul>
+                                <li>ΔS > 0: aumenta el desorden (ej. sólido → líquido → gas).</li>
+                                <li>ΔS < 0: disminuye el desorden (ej. gas → líquido → sólido).</li>
+                            </ul>
+                        </div>
+                        <div class="img-container">
+                            <!-- IMAGEN: entropia-estados.png → sólido, líquido, gas -->
+                            <img src="entropia-estados.png" alt="Entropía y estados de la materia" style="max-width:450px;">
+                        </div>
+                        <div class="pharma-box">
+                            <strong>Ejemplo en salud:</strong> La digestión de alimentos aumenta la entropía del sistema (moléculas complejas → moléculas más simples).
+                        </div>
+                    </div>
+
+                    <!-- Energía libre de Gibbs -->
+                    <div id="sub-gibbs" class="tab-content">
+                        <h3>Energía libre de Gibbs (G)</h3>
+                        <p>La <strong>energía libre de Gibbs</strong> es la energía útil para realizar trabajo y determinar la <strong>espontaneidad</strong> de una reacción.</p>
+                        <div class="formula-box">
+                            ΔG = ΔH − T · ΔS
+                        </div>
+                        <div class="formula-box">
+                            ΔG°<sub>Rx</sub> = ∑ ΔG°<sub>f(productos)</sub> − ∑ ΔG°<sub>f(reactantes)</sub>
+                        </div>
+                        <div class="info-box">
+                            <ul>
+                                <li><strong>ΔG < 0:</strong> reacción espontánea (exergónica).</li>
+                                <li><strong>ΔG > 0:</strong> reacción no espontánea (endergónica).</li>
+                                <li><strong>ΔG = 0:</strong> equilibrio.</li>
+                            </ul>
+                        </div>
+                        <div class="img-container">
+                            <!-- IMAGEN: energia-libre.png → gráfico de ΔG -->
+                            <img src="energia-libre.png" alt="Energía libre de Gibbs" style="max-width:450px;">
+                        </div>
+                        <div class="bio-box">
+                            <strong>Ejemplo en salud:</strong> La hidrólisis de ATP (exergónica) se acopla a reacciones endergónicas como la síntesis de proteínas.
+                        </div>
+                    </div>
+
+                    <!-- Espontaneidad -->
+                    <div id="sub-espontaneidad" class="tab-content">
+                        <h3>Predicción de espontaneidad</h3>
+                        <p>La espontaneidad depende de los signos y magnitudes de ΔH y ΔS, y de la temperatura.</p>
+                        <div class="table-responsive">
+                            <table>
+                                <tr><th>ΔH</th><th>ΔS</th><th>ΔG = ΔH − TΔS</th><th>Espontaneidad</th></tr>
+                                <tr><td>− (exotérmica)</td><td>+ (aumenta desorden)</td><td>siempre −</td><td>Espontánea a cualquier T</td></tr>
+                                <tr><td>+ (endotérmica)</td><td>− (disminuye desorden)</td><td>siempre +</td><td>No espontánea a cualquier T</td></tr>
+                                <tr><td>− (exotérmica)</td><td>− (disminuye desorden)</td><td>depende de T</td><td>Espontánea a T bajas</td></tr>
+                                <tr><td>+ (endotérmica)</td><td>+ (aumenta desorden)</td><td>depende de T</td><td>Espontánea a T altas</td></tr>
+                            </table>
+                        </div>
+                        <div class="tip-box">
+                            <strong>En salud:</strong> La fiebre puede hacer que reacciones endotérmicas con ΔS positivo se vuelvan espontáneas, afectando el metabolismo.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== MAPA CONCEPTUAL ==================== -->
+        <section id="mapa" class="section">
+            <div class="card">
+                <h2>🗺️ Mapa Conceptual Interactivo</h2>
+                <p style="margin-bottom:1rem;">Haz <strong>clic</strong> en cada nodo para desplegar u ocultar sus ramas.</p>
+                <div class="map-container">
+                    <ul class="map-tree">
+                        <li class="has-children">
+                            <div class="map-node root" onclick="toggleMap(this)">⚡ Termodinámica</div>
+                            <ul>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">Sistema y entorno</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Sistema (lo que estudiamos)</span></li>
+                                        <li><span class="map-leaf">Entorno (alrededor)</span></li>
+                                        <li><span class="map-leaf">Universo = sistema + entorno</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">Entalpía (H)</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Calor a presión constante</span></li>
+                                        <li><span class="map-leaf">ΔH = H<sub>prod</sub> − H<sub>react</sub></span></li>
+                                        <li><span class="map-leaf">Endotérmica (ΔH>0) / Exotérmica (ΔH<0)</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">Entropía (S)</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Medida del desorden</span></li>
+                                        <li><span class="map-leaf">ΔS = S<sub>prod</sub> − S<sub>react</sub></span></li>
+                                        <li><span class="map-leaf">Sólido < Líquido < Gas</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">Energía libre de Gibbs (G)</div>
+                                    <ul>
+                                        <li><span class="map-leaf">ΔG = ΔH − TΔS</span></li>
+                                        <li><span class="map-leaf">ΔG < 0 → espontánea (exergónica)</span></li>
+                                        <li><span class="map-leaf">ΔG > 0 → no espontánea (endergónica)</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">Aplicaciones en salud</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Metabolismo energético</span></li>
+                                        <li><span class="map-leaf">Termorregulación</span></li>
+                                        <li><span class="map-leaf">Reacciones enzimáticas</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FLASHCARDS ==================== -->
+        <section id="flashcards" class="section">
+            <div class="card">
+                <h2>🃏 Flashcards de Estudio</h2>
+                <p>Haz <strong>clic</strong> en la tarjeta para voltearla y ver la respuesta. Luego califícate con honestidad.</p>
+
+                <div class="fc-stats">
+                    <span class="fc-stat good">✅ Buenas: <span id="fc-good">0</span></span>
+                    <span class="fc-stat bad">❌ Malas: <span id="fc-bad">0</span></span>
+                    <span class="fc-stat pending">⏳ Pendientes: <span id="fc-left">0</span></span>
+                    <span class="fc-stat total">📈 Historial: <span id="fc-hist">0 ✓ / 0 ✗</span></span>
+                </div>
+                <div class="fc-progress"><div class="fc-progress-bar" id="fc-bar"></div></div>
+
+                <div class="flashcard-scene" id="fc-scene">
+                    <div class="flashcard" id="fc-card" onclick="flipCard()">
+                        <div class="fc-face fc-front">
+                            <div class="fc-label">PREGUNTA</div>
+                            <div id="fc-question"></div>
+                            <span class="fc-hint">Clic para voltear ✨</span>
+                        </div>
+                        <div class="fc-face fc-back">
+                            <div class="fc-label">RESPUESTA</div>
+                            <div id="fc-answer"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fc-controls" id="fc-controls">
+                    <button class="fc-btn good" id="btn-fc-good" onclick="gradeCard(true)" disabled>✅ La sabía</button>
+                    <button class="fc-btn bad" id="btn-fc-bad" onclick="gradeCard(false)" disabled>❌ No la sabía</button>
+                </div>
+
+                <div id="fc-summary" class="calc-result" style="max-width:720px;margin:1rem auto;"></div>
+                <div style="text-align:center;">
+                    <button class="calc-button" onclick="resetFlashcards()">🔄 Reiniciar Flashcards</button><br>
+                    <button class="fc-link" onclick="borrarHistorial()">Borrar historial acumulado</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== HERRAMIENTAS ==================== -->
+        <section id="herramientas" class="section">
+            <div class="card">
+                <h2>🧮 Herramientas Interactivas</h2>
+                <div id="herramientas-tabs" class="tab-group">
+                    <div class="tabs">
+                        <button class="tab active" onclick="showTab('herramientas-tabs','calc-gibbs',this)">⚡ Calculadora ΔG</button>
+                        <button class="tab" onclick="showTab('herramientas-tabs','calc-espontaneidad',this)">🧭 Predicción espontaneidad</button>
+                    </div>
+
+                    <!-- Calculadora ΔG -->
+                    <div id="calc-gibbs" class="tab-content active">
+                        <div class="calculator">
+                            <div class="calc-title">⚡ Calculadora de ΔG a partir de ΔH y ΔS</div>
+                            <p>Ingresa los valores de ΔH (kJ/mol), ΔS (J/K·mol) y la temperatura (K) para obtener ΔG.</p>
+                            <div class="calc-input-group">
+                                <label>ΔH (kJ/mol):</label>
+                                <input type="number" id="delta-h" value="-90" step="0.1">
+                            </div>
+                            <div class="calc-input-group">
+                                <label>ΔS (J/K·mol):</label>
+                                <input type="number" id="delta-s" value="100" step="0.1">
+                            </div>
+                            <div class="calc-input-group">
+                                <label>Temperatura (K):</label>
+                                <input type="number" id="temp-g" value="298" step="1">
+                            </div>
+                            <button class="calc-button" onclick="calcularGibbs()">Calcular ΔG</button>
+                            <div id="resultado-gibbs" class="calc-result"></div>
+                        </div>
+                    </div>
+
+                    <!-- Predicción de espontaneidad -->
+                    <div id="calc-espontaneidad" class="tab-content">
+                        <div class="calculator">
+                            <div class="calc-title">🧭 Predicción de espontaneidad</div>
+                            <p>Selecciona los signos de ΔH y ΔS, y la temperatura para determinar si la reacción es espontánea.</p>
+                            <div class="calc-input-group">
+                                <label>Signo de ΔH:</label>
+                                <select id="signo-dh">
+                                    <option value="neg">Negativo (exotérmica)</option>
+                                    <option value="pos">Positivo (endotérmica)</option>
+                                </select>
+                            </div>
+                            <div class="calc-input-group">
+                                <label>Signo de ΔS:</label>
+                                <select id="signo-ds">
+                                    <option value="pos">Positivo (aumenta desorden)</option>
+                                    <option value="neg">Negativo (disminuye desorden)</option>
+                                </select>
+                            </div>
+                            <div class="calc-input-group">
+                                <label>Temperatura (K):</label>
+                                <input type="number" id="temp-esp" value="298" step="1">
+                            </div>
+                            <button class="calc-button" onclick="predecirEspontaneidad()">Predecir</button>
+                            <div id="resultado-espontaneidad" class="calc-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== APLICACIONES EN SALUD ==================== -->
+        <section id="aplicaciones" class="section">
+            <div class="card">
+                <h2>🏥 Aplicaciones en Ciencias de la Salud</h2>
+                <p>La termodinámica explica muchos fenómenos en el cuerpo humano y en la práctica clínica. Aquí algunos ejemplos sencillos y directos:</p>
+
+                <div class="img-grid">
+                    <!-- IMAGEN: metabolismo.png -->
+                    <figure>
+                        <img src="metabolismo.png" alt="Metabolismo energético">
+                        <figcaption>Metabolismo celular</figcaption>
+                    </figure>
+                    <!-- IMAGEN: termorregulacion.png -->
+                    <figure>
+                        <img src="termorregulacion.png" alt="Termorregulación">
+                        <figcaption>Termorregulación</figcaption>
+                    </figure>
+                    <!-- IMAGEN: enzimas.png -->
+                    <figure>
+                        <img src="enzimas.png" alt="Reacciones enzimáticas">
+                        <figcaption>Reacciones enzimáticas</figcaption>
+                    </figure>
+                </div>
+
+                <h3>⚡ Metabolismo energético</h3>
+                <div class="bio-box">
+                    <ul>
+                        <li>El <strong>ATP</strong> es la moneda energética de la célula. Su hidrólisis es <strong>exergónica</strong> (ΔG < 0) y libera energía para procesos como la contracción muscular y la síntesis de proteínas.</li>
+                        <li>La <strong>glucólisis</strong> y la <strong>respiración celular</strong> son reacciones exotérmicas que producen calor y mantienen la temperatura corporal.</li>
+                    </ul>
+                </div>
+
+                <h3>🌡️ Termorregulación</h3>
+                <div class="pharma-box">
+                    <ul>
+                        <li>El cuerpo humano mantiene una temperatura de ~37 °C. La <strong>fiebre</strong> eleva la temperatura, lo que puede afectar la espontaneidad de reacciones enzimáticas (cambia ΔG).</li>
+                        <li>La <strong>sudoración</strong> es un proceso endotérmico que absorbe calor del cuerpo para enfriarlo.</li>
+                    </ul>
+                </div>
+
+                <h3>🧬 Reacciones enzimáticas y fármacos</h3>
+                <div class="info-box">
+                    <ul>
+                        <li>Las <strong>enzimas</strong> disminuyen la energía de activación (Ea), permitiendo que reacciones con ΔG positivo ocurran a temperatura corporal.</li>
+                        <li>La <strong>afinidad</strong> de un fármaco por su receptor se relaciona con la energía libre de unión (ΔG). A menor ΔG, mayor afinidad.</li>
+                    </ul>
+                </div>
+
+                <h3>💧 Equilibrio ácido-base</h3>
+                <div class="tip-box">
+                    <ul>
+                        <li>El pH de la sangre (7.35-7.45) está regulado por sistemas buffer. La termodinámica de las reacciones de ionización (como H₂CO₃ ⇌ H⁺ + HCO₃⁻) determina el equilibrio.</li>
+                        <li>La <strong>respiración</strong> elimina CO₂, que es un ácido, ayudando a mantener el pH.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== MNEMOTECNIAS ==================== -->
+        <section id="mnemotecnias" class="section">
+            <div class="card">
+                <h2>🧠 Nemotecnias y Reglas Mnemotécnicas</h2>
+
+                <div class="mnemonic-card" style="background:linear-gradient(135deg,#f0f8ff 0%,#d4edda 100%);border:3px solid var(--eq-gold);border-radius:12px;padding:1.5rem;margin:1rem 0;">
+                    <div style="color:var(--eq-blue);font-weight:700;font-size:1.2rem;">🔥 "Endo entra, Exo sale"</div>
+                    <p><strong>Endotérmica</strong> = absorbe calor (entra). <strong>Exotérmica</strong> = libera calor (sale).</p>
+                </div>
+
+                <div class="mnemonic-card" style="background:linear-gradient(135deg,#fff5f5 0%,#ffe0e0 100%);border:3px solid var(--accent);border-radius:12px;padding:1.5rem;margin:1rem 0;">
+                    <div style="color:var(--accent);font-weight:700;font-size:1.2rem;">📉 "ΔG negativo = ¡GO! (espontánea)"</div>
+                    <p>Si ΔG < 0, la reacción es espontánea (como un "GO"). Si ΔG > 0, no es espontánea ("NO GO").</p>
+                </div>
+
+                <div class="mnemonic-card" style="background:linear-gradient(135deg,#f0f8ff 0%,#d4edda 100%);border:3px solid var(--eq-gold);border-radius:12px;padding:1.5rem;margin:1rem 0;">
+                    <div style="color:var(--eq-blue);font-weight:700;font-size:1.2rem;">🌀 "Sólido, Líquido, Gas: entropía en aumento"</div>
+                    <p>El desorden aumenta en el orden: S < L < G, por lo que ΔS > 0 en cambios de estado sólido→líquido→gas.</p>
+                </div>
+
+                <div class="mnemonic-card" style="background:linear-gradient(135deg,#fff5f5 0%,#ffe0e0 100%);border:3px solid var(--accent);border-radius:12px;padding:1.5rem;margin:1rem 0;">
+                    <div style="color:var(--accent);font-weight:700;font-size:1.2rem;">🧪 "Exergónico = energía sale"</div>
+                    <p>Reacciones <strong>exergónicas</strong> (ΔG < 0) liberan energía. <strong>Endergónicas</strong> (ΔG > 0) requieren energía.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== GLOSARIO ==================== -->
+        <section id="glosario" class="section">
+            <div class="card">
+                <h2>📖 Glosario Interactivo</h2>
+                <p style="margin-bottom:1.5rem;">Haz clic en cada término para ver su definición:</p>
+
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Termodinámica</strong><div class="glossary-definition">Estudio de la conversión de calor y otras formas de energía en procesos físicos y químicos.</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Sistema</strong><div class="glossary-definition">Parte del universo que se aísla para su estudio (ej. los reactivos en un recipiente).</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Entorno</strong><div class="glossary-definition">Todo lo que rodea al sistema (ej. el aire, el recipiente).</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Entalpía (H)</strong><div class="glossary-definition">Calor intercambiado por un sistema a presión constante. Función de estado.</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Entropía (S)</strong><div class="glossary-definition">Medida del desorden o aleatoriedad de un sistema. A mayor desorden, mayor entropía.</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Energía libre de Gibbs (G)</strong><div class="glossary-definition">Energía útil para realizar trabajo; determina la espontaneidad de una reacción.</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Reacción exotérmica</strong><div class="glossary-definition">Libera calor al entorno (ΔH < 0).</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Reacción endotérmica</strong><div class="glossary-definition">Absorbe calor del entorno (ΔH > 0).</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Reacción exergónica</strong><div class="glossary-definition">Espontánea, libera energía (ΔG < 0).</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Reacción endergónica</strong><div class="glossary-definition">No espontánea, requiere energía (ΔG > 0).</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Espontaneidad</strong><div class="glossary-definition">Tendencia de una reacción a ocurrir sin intervención externa; determinada por ΔG.</div></div>
+                <div class="glossary-term" onclick="toggleDefinition(this)"><strong>ATP</strong><div class="glossary-definition">Adenosín trifosfato, principal molécula energética de la célula; su hidrólisis es exergónica.</div></div>
+            </div>
+        </section>
+
+        <!-- ==================== ERRORES COMUNES ==================== -->
+        <section id="errores" class="section">
+            <div class="card">
+                <h2>⚠️ Errores Comunes de Estudiantes</h2>
+
+                <div class="error-card">
+                    <div class="error-title">❌ Error 1: Confundir exotérmico con exergónico</div>
+                    <p><strong>Error:</strong> Pensar que toda reacción exotérmica es espontánea.</p>
+                    <div class="correction"><strong>✓ Corrección:</strong> La espontaneidad depende de ΔG, no solo de ΔH. Una reacción puede ser exotérmica pero no espontánea si ΔS es muy negativo a alta temperatura.</div>
+                </div>
+
+                <div class="error-card">
+                    <div class="error-title">❌ Error 2: Olvidar la temperatura en ΔG</div>
+                    <p><strong>Error:</strong> Calcular ΔG solo con ΔH y ΔS sin considerar la temperatura.</p>
+                    <div class="correction"><strong>✓ Corrección:</strong> ΔG = ΔH − TΔS. La temperatura es crucial; una reacción puede ser espontánea a una temperatura y no a otra.</div>
+                </div>
+
+                <div class="error-card">
+                    <div class="error-title">❌ Error 3: No relacionar ΔS con el desorden</div>
+                    <p><strong>Error:</strong> Creer que ΔS siempre es positivo.</p>
+                    <div class="correction"><strong>✓ Corrección:</strong> ΔS puede ser negativo si los productos están más ordenados que los reactantes (ej. formación de un sólido a partir de gases).</div>
+                </div>
+
+                <div class="error-card">
+                    <div class="error-title">❌ Error 4: No aplicar la termodinámica al cuerpo humano</div>
+                    <p><strong>Error:</strong> Estudiar la termodinámica de forma aislada sin ejemplos de salud.</p>
+                    <div class="correction"><strong>✓ Corrección:</strong> Relaciona cada concepto con el metabolismo, la fiebre, la actividad enzimática, etc.</div>
+                </div>
+
+                <div class="error-card">
+                    <div class="error-title">❌ Error 5: Confundir ΔH° con ΔH de reacción a condiciones no estándar</div>
+                    <p><strong>Error:</strong> Usar ΔH° (estándar) para condiciones diferentes.</p>
+                    <div class="correction"><strong>✓ Corrección:</strong> ΔH° se refiere a 1 atm y 25 °C. Para otras condiciones, se debe corregir con la ecuación de Kirchhoff.</div>
+                </div>
+
+                <div class="tip-box" style="margin-top:2rem;">
+                    <strong>💡 Consejo:</strong> Practica con los ejercicios de la clase y usa las herramientas interactivas para verificar tus cálculos.
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== BIBLIOGRAFÍA ==================== -->
+        <section id="bibliografia" class="section">
+            <div class="card">
+                <h2>📚 Bibliografía Universitaria</h2>
+
+                <h3>Libros de Química General</h3>
+                <div class="info-box">
+                    <strong>1. Chang, R., & Goldsby, K. A. (2017).</strong> <em>Química</em> (12ª ed.). McGraw-Hill.<br>
+                    • <strong>Capítulo 6:</strong> Termoquímica.<br>
+                    • <strong>Capítulo 19:</strong> Termodinámica química.
+                </div>
+                <div class="info-box">
+                    <strong>2. Brown, T. L., LeMay, H. E., Bursten, B. E., & Murphy, C. J. (2018).</strong> <em>Química: La Ciencia Central</em> (13ª ed.). Pearson.<br>
+                    • <strong>Capítulo 5:</strong> Termoquímica.<br>
+                    • <strong>Capítulo 19:</strong> Termodinámica química.
+                </div>
+                <div class="info-box">
+                    <strong>3. Petrucci, R. H., Herring, F. G., Madura, J. D., & Bissonnette, C. (2017).</strong> <em>Química General: Principios y Aplicaciones Modernas</em> (11ª ed.). Pearson.<br>
+                    • <strong>Capítulo 7:</strong> Termoquímica.<br>
+                    • <strong>Capítulo 20:</strong> Termodinámica.
+                </div>
+
+                <h3>Recursos en Línea</h3>
+                <div class="bio-box">
+                    <strong>Simulador de energía libre (PhET):</strong> <a href="https://phet.colorado.edu/sims/html/reversible-reactions/latest/reversible-reactions_es.html" target="_blank" style="color:var(--eq-blue);">PhET - Reacciones reversibles</a><br>
+                    <strong>Calculadora de ΔG:</strong> <a href="https://www.omnicalculator.com/chemistry/gibbs-free-energy" target="_blank" style="color:var(--eq-blue);">Omni Calculator</a><br>
+                    <strong>Khan Academy - Termodinámica:</strong> <a href="https://es.khanacademy.org/science/biology/energy-and-enzymes" target="_blank" style="color:var(--eq-blue);">https://es.khanacademy.org</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== QUIZ ==================== -->
+        <section id="quiz" class="section">
+            <div class="card">
+                <h2>🎯 Quiz de Autoevaluación</h2>
+                <p>Se mostrarán <strong>10 preguntas al azar</strong> de un total de 30. Al finalizar, podrás cargar una nueva ronda.</p>
+                <div id="quiz-container"></div>
+                <div style="text-align:center;margin-top:2rem;">
+                    <button class="calc-button" onclick="cargarQuiz()">🔄 Nueva ronda</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size:1.2rem;margin-bottom:0.5rem;">🎓 Universidad Peruana Cayetano Heredia</p>
+        <p>Unidad de Formación Básica Integral · Curso: Elementos de Química</p>
+        <p style="margin-top:0.5rem;font-style:italic;">"La química es el puente entre la materia y la vida"</p>
+        <p style="margin-top:2rem;font-size:0.9rem;">© 2026 · Material educativo para estudiantes de ciencias de la salud</p>
+    </footer>
+
+    <script>
+        // ============================================================
+        //  NAVEGACIÓN
+        // ============================================================
+        function showSection(sectionId, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showTab(groupId, tabId, btn) {
+            const group = document.getElementById(groupId);
+            group.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            group.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if (btn) btn.classList.add('active');
+        }
+
+        // ============================================================
+        //  MAPA CONCEPTUAL
+        // ============================================================
+        function toggleMap(node) {
+            node.parentElement.classList.toggle('open');
+        }
+
+        // ============================================================
+        //  GLOSARIO
+        // ============================================================
+        function toggleDefinition(el) {
+            const def = el.querySelector('.glossary-definition');
+            def.classList.toggle('show');
+            el.style.background = def.classList.contains('show') ? '#fff9e6' : 'var(--white)';
+        }
+
+        // ============================================================
+        //  FLASHCARDS (20 tarjetas sobre termodinámica)
+        // ============================================================
+        const flashcards = [
+            { q: '¿Qué estudia la termodinámica?', a: 'La conversión de calor y otras formas de energía en procesos físicos y químicos.' },
+            { q: '¿Qué es un sistema en termodinámica?', a: 'La parte del universo que se aísla para su estudio.' },
+            { q: '¿Qué es la entalpía (H)?', a: 'El calor intercambiado por un sistema a presión constante.' },
+            { q: '¿Qué significa ΔH > 0?', a: 'Reacción endotérmica (absorbe calor).' },
+            { q: '¿Qué significa ΔH < 0?', a: 'Reacción exotérmica (libera calor).' },
+            { q: '¿Qué es la entropía (S)?', a: 'Medida del desorden o aleatoriedad de un sistema.' },
+            { q: '¿En qué estado de agregación la entropía es mayor?', a: 'En gas (mayor desorden).' },
+            { q: '¿Qué indica ΔS > 0?', a: 'Aumenta el desorden del sistema.' },
+            { q: '¿Qué es la energía libre de Gibbs (G)?', a: 'Energía útil para realizar trabajo y determinar la espontaneidad.' },
+            { q: 'Fórmula de ΔG:', a: 'ΔG = ΔH − T·ΔS' },
+            { q: '¿Qué significa ΔG < 0?', a: 'Reacción espontánea (exergónica).' },
+            { q: '¿Qué significa ΔG > 0?', a: 'Reacción no espontánea (endergónica).' },
+            { q: '¿Qué es una reacción exergónica?', a: 'Libera energía (ΔG < 0), espontánea.' },
+            { q: '¿Qué es una reacción endergónica?', a: 'Requiere energía (ΔG > 0), no espontánea.' },
+            { q: '¿Cuándo una reacción es espontánea a cualquier temperatura?', a: 'Cuando ΔH < 0 y ΔS > 0.' },
+            { q: '¿Cuándo una reacción no es espontánea a ninguna temperatura?', a: 'Cuando ΔH > 0 y ΔS < 0.' },
+            { q: '¿Qué es el ATP?', a: 'Adenosín trifosfato, la moneda energética de la célula.' },
+            { q: '¿La hidrólisis de ATP es exergónica o endergónica?', a: 'Exergónica (libera energía).' },
+            { q: '¿Cómo afecta la fiebre a las reacciones enzimáticas?', a: 'Aumenta la temperatura, lo que puede cambiar la espontaneidad (ΔG) y la velocidad.' },
+            { q: '¿Qué relación tiene la termodinámica con el metabolismo?', a: 'El metabolismo consiste en reacciones exergónicas (catabolismo) y endergónicas (anabolismo) acopladas.' }
+        ];
+
+        let fcIndex = 0,
+            fcFlipped = false,
+            fcGood = 0,
+            fcBad = 0,
+            fcDone = false;
+
+        function fcUpdateStats() {
+            document.getElementById('fc-good').textContent = fcGood;
+            document.getElementById('fc-bad').textContent = fcBad;
+            document.getElementById('fc-left').textContent = Math.max(0, flashcards.length - fcIndex);
+            const tg = parseInt(localStorage.getItem('fcTotalGood') || '0', 10);
+            const tb = parseInt(localStorage.getItem('fcTotalBad') || '0', 10);
+            document.getElementById('fc-hist').textContent = tg + ' ✓ / ' + tb + ' ✗';
+            document.getElementById('fc-bar').style.width = (fcIndex / flashcards.length * 100) + '%';
+        }
+
+        function fcRenderCard() {
+            const card = document.getElementById('fc-card');
+            card.classList.remove('flipped');
+            fcFlipped = false;
+            document.getElementById('fc-question').textContent = flashcards[fcIndex].q;
+            document.getElementById('fc-answer').textContent = flashcards[fcIndex].a;
+            document.getElementById('btn-fc-good').disabled = true;
+            document.getElementById('btn-fc-bad').disabled = true;
+            fcUpdateStats();
+        }
+
+        function flipCard() {
+            if (fcDone) return;
+            const card = document.getElementById('fc-card');
+            card.classList.toggle('flipped');
+            fcFlipped = card.classList.contains('flipped');
+            document.getElementById('btn-fc-good').disabled = !fcFlipped;
+            document.getElementById('btn-fc-bad').disabled = !fcFlipped;
+        }
+
+        function gradeCard(wasGood) {
+            if (!fcFlipped || fcDone) return;
+            if (wasGood) {
+                fcGood++;
+                localStorage.setItem('fcTotalGood', String(parseInt(localStorage.getItem('fcTotalGood') || '0', 10) + 1));
+            } else {
+                fcBad++;
+                localStorage.setItem('fcTotalBad', String(parseInt(localStorage.getItem('fcTotalBad') || '0', 10) + 1));
+            }
+            fcIndex++;
+            if (fcIndex < flashcards.length) {
+                fcRenderCard();
+            } else {
+                fcFinish();
+            }
+        }
+
+        function fcFinish() {
+            fcDone = true;
+            document.getElementById('fc-scene').style.display = 'none';
+            document.getElementById('fc-controls').style.display = 'none';
+            const total = fcGood + fcBad;
+            const pct = Math.round(fcGood / total * 100);
+            let msg = pct >= 80 ? ' ¡Excelente! Dominas el tema.' : (pct >= 60 ? '💪 ¡Bien! Repasa las que fallaste.' :
+                '📚 Necesitas repasar: vuelve a la pestaña Conceptos.');
+            const sum = document.getElementById('fc-summary');
+            sum.innerHTML = '<strong>📊 Resumen de la sesión:</strong><br>✅ Buenas: ' + fcGood + ' &nbsp; ❌ Malas: ' + fcBad +
+                '<br>Precisión: <strong>' + pct + '%</strong><br>' + msg;
+            sum.classList.add('show');
+            fcUpdateStats();
+        }
+
+        function resetFlashcards() {
+            fcIndex = 0;
+            fcGood = 0;
+            fcBad = 0;
+            fcDone = false;
+            document.getElementById('fc-scene').style.display = 'block';
+            document.getElementById('fc-controls').style.display = 'flex';
+            document.getElementById('fc-summary').classList.remove('show');
+            fcRenderCard();
+        }
+
+        function borrarHistorial() {
+            localStorage.removeItem('fcTotalGood');
+            localStorage.removeItem('fcTotalBad');
+            fcUpdateStats();
+        }
+
+        // ============================================================
+        //  HERRAMIENTAS: Calculadora ΔG
+        // ============================================================
+        function calcularGibbs() {
+            const dh = parseFloat(document.getElementById('delta-h').value);
+            const ds = parseFloat(document.getElementById('delta-s').value);
+            const t = parseFloat(document.getElementById('temp-g').value);
+            if (isNaN(dh) || isNaN(ds) || isNaN(t)) {
+                alert('Ingresa todos los valores correctamente.');
+                return;
+            }
+            // Convertir ΔS de J/K·mol a kJ/K·mol
+            const ds_kj = ds / 1000;
+            const dg = dh - t * ds_kj;
+            const div = document.getElementById('resultado-gibbs');
+            div.innerHTML = '<strong>ΔG = ' + dg.toFixed(2) + ' kJ/mol</strong><br>' +
+                (dg < 0 ? '✅ Reacción espontánea (exergónica)' : dg > 0 ? '❌ Reacción no espontánea (endergónica)' :
+                    '⚖️ Reacción en equilibrio');
+            div.classList.add('show');
+        }
+
+        // ============================================================
+        //  HERRAMIENTAS: Predicción de espontaneidad
+        // ============================================================
+        function predecirEspontaneidad() {
+            const signoDh = document.getElementById('signo-dh').value;
+            const signoDs = document.getElementById('signo-ds').value;
+            const temp = parseFloat(document.getElementById('temp-esp').value);
+            if (isNaN(temp)) {
+                alert('Ingresa una temperatura válida.');
+                return;
+            }
+
+            let mensaje = '';
+            if (signoDh === 'neg' && signoDs === 'pos') {
+                mensaje = '✅ Espontánea a cualquier temperatura (ΔH < 0, ΔS > 0).';
+            } else if (signoDh === 'pos' && signoDs === 'neg') {
+                mensaje = '❌ No espontánea a cualquier temperatura (ΔH > 0, ΔS < 0).';
+            } else if (signoDh === 'neg' && signoDs === 'neg') {
+                mensaje = '🔹 Espontánea solo a temperaturas bajas (ΔH < 0, ΔS < 0). A altas temperaturas, no espontánea.';
+            } else if (signoDh === 'pos' && signoDs === 'pos') {
+                mensaje = '🔹 Espontánea solo a temperaturas altas (ΔH > 0, ΔS > 0). A bajas temperaturas, no espontánea.';
+            }
+            const div = document.getElementById('resultado-espontaneidad');
+            div.innerHTML = '<strong>' + mensaje + '</strong><br>Temperatura ingresada: ' + temp + ' K.';
+            div.classList.add('show');
+        }
+
+        // ============================================================
+        //  QUIZ (30 preguntas sobre termodinámica)
+        // ============================================================
+        const preguntasBase = [
+            { pregunta: '¿Qué estudia la termodinámica?', opciones: ['Conversión de calor y energía', 'Estructura de la materia',
+                    'Velocidad de reacciones', 'Propiedades de los gases'
+                ], correcta: 0, explicacion: 'La termodinámica estudia la conversión de calor y otras formas de energía.' },
+            { pregunta: '¿Qué es un sistema en termodinámica?', opciones: ['El entorno', 'Parte del universo que se estudia',
+                    'Todo el universo', 'El recipiente'
+                ], correcta: 1, explicacion: 'El sistema es la parte del universo que se aísla para su estudio.' },
+            { pregunta: '¿Cuál es la definición de entalpía?', opciones: ['Calor a volumen constante',
+                    'Calor a presión constante', 'Energía interna', 'Trabajo'
+                ], correcta: 1, explicacion: 'La entalpía es el calor intercambiado a presión constante.' },
+            { pregunta: '¿Qué significa ΔH > 0?', opciones: ['Reacción exotérmica', 'Reacción endotérmica',
+                    'Reacción espontánea', 'Reacción en equilibrio'
+                ], correcta: 1, explicacion: 'ΔH > 0 indica absorción de calor (endotérmica).' },
+            { pregunta: '¿Qué significa ΔH < 0?', opciones: ['Reacción exotérmica', 'Reacción endotérmica',
+                    'Reacción no espontánea', 'Reacción rápida'
+                ], correcta: 0, explicacion: 'ΔH < 0 indica liberación de calor (exotérmica).' },
+            { pregunta: '¿Qué mide la entropía?', opciones: ['El desorden', 'La temperatura', 'La presión',
+                    'La concentración'
+                ], correcta: 0, explicacion: 'La entropía mide el desorden o aleatoriedad de un sistema.' },
+            { pregunta: '¿En qué estado la entropía es mayor?', opciones: ['Sólido', 'Líquido', 'Gas',
+                    'No depende del estado'
+                ], correcta: 2, explicacion: 'El gas tiene el mayor desorden, por lo tanto mayor entropía.' },
+            { pregunta: '¿Qué indica ΔS > 0?', opciones: ['Aumenta el desorden', 'Disminuye el desorden',
+                    'No cambia el desorden', 'El sistema se enfría'
+                ], correcta: 0, explicacion: 'ΔS > 0 significa que el sistema se vuelve más desordenado.' },
+            { pregunta: 'Fórmula de la energía libre de Gibbs:', opciones: ['ΔG = ΔH + TΔS', 'ΔG = ΔH − TΔS',
+                    'ΔG = ΔH / T', 'ΔG = TΔS − ΔH'
+                ], correcta: 1, explicacion: 'ΔG = ΔH − TΔS es la ecuación fundamental.' },
+            { pregunta: '¿Qué significa ΔG < 0?', opciones: ['Reacción espontánea', 'Reacción no espontánea',
+                    'Reacción en equilibrio', 'Reacción endotérmica'
+                ], correcta: 0, explicacion: 'ΔG < 0 indica espontaneidad (exergónica).' },
+            { pregunta: '¿Qué significa ΔG > 0?', opciones: ['Reacción espontánea', 'Reacción no espontánea',
+                    'Reacción exotérmica', 'Reacción rápida'
+                ], correcta: 1, explicacion: 'ΔG > 0 indica no espontaneidad (endergónica).' },
+            { pregunta: '¿Qué es una reacción exergónica?', opciones: ['Libera energía (ΔG < 0)',
+                    'Requiere energía (ΔG > 0)', 'Absorbe calor (ΔH > 0)', 'Libera calor (ΔH < 0)'
+                ], correcta: 0, explicacion: 'Exergónica significa ΔG < 0, libera energía.' },
+            { pregunta: '¿Qué es una reacción endergónica?', opciones: ['Libera energía (ΔG < 0)',
+                    'Requiere energía (ΔG > 0)', 'Absorbe calor (ΔH > 0)', 'Libera calor (ΔH < 0)'
+                ], correcta: 1, explicacion: 'Endergónica significa ΔG > 0, requiere energía.' },
+            { pregunta: '¿Cuándo una reacción es espontánea a cualquier temperatura?', opciones: ['ΔH < 0 y ΔS > 0',
+                    'ΔH > 0 y ΔS < 0', 'ΔH < 0 y ΔS < 0', 'ΔH > 0 y ΔS > 0'
+                ], correcta: 0, explicacion: 'Si ΔH < 0 (exotérmica) y ΔS > 0 (aumenta desorden), ΔG siempre es negativo.' },
+            { pregunta: '¿Cuándo una reacción NO es espontánea a ninguna temperatura?', opciones: ['ΔH < 0 y ΔS > 0',
+                    'ΔH > 0 y ΔS < 0', 'ΔH < 0 y ΔS < 0', 'ΔH > 0 y ΔS > 0'
+                ], correcta: 1, explicacion: 'Si ΔH > 0 (endotérmica) y ΔS < 0 (disminuye desorden), ΔG siempre es positivo.' },
+            { pregunta: '¿Qué es el ATP?', opciones: ['Una enzima', 'La moneda energética de la célula',
+                    'Un tipo de proteína', 'Un lípido'
+                ], correcta: 1, explicacion: 'ATP es la principal molécula energética de la célula.' },
+            { pregunta: 'La hidrólisis de ATP es:', opciones: ['Exergónica (libera energía)',
+                    'Endergónica (requiere energía)', 'Endotérmica', 'Exotérmica'
+                ], correcta: 0, explicacion: 'La hidrólisis de ATP libera energía (ΔG < 0).' },
+            { pregunta: '¿Cómo afecta la fiebre a las reacciones enzimáticas?', opciones: ['Aumenta la velocidad',
+                    'Disminuye la velocidad', 'No afecta', 'Cambia la espontaneidad (ΔG)'
+                ], correcta: 3, explicacion: 'La fiebre aumenta la temperatura, lo que puede alterar ΔG y la actividad enzimática.' },
+            { pregunta: '¿Qué relación tiene la termodinámica con el metabolismo?', opciones: ['El metabolismo es puramente endotérmico',
+                    'El metabolismo acopla reacciones exergónicas y endergónicas',
+                    'El metabolismo no involucra energía', 'El metabolismo es un proceso isotérmico'
+                ], correcta: 1, explicacion: 'El metabolismo acopla reacciones exergónicas (catabolismo) con endergónicas (anabolismo).' },
+            { pregunta: '¿Cuál es la unidad de entropía en el SI?', opciones: ['J/K', 'J/mol·K', 'kJ/mol',
+                    'J·K/mol'
+                ], correcta: 0, explicacion: 'La entropía se mide en J/K (o J/mol·K para entropía molar).' },
+            { pregunta: '¿Cuál es la unidad de entalpía?', opciones: ['J', 'J/mol', 'kJ/mol', 'Todas las anteriores'],
+                correcta: 3, explicacion: 'La entalpía se expresa en J, J/mol o kJ/mol según el contexto.' },
+            { pregunta: '¿Qué es la energía de activación?', opciones: ['Energía necesaria para iniciar una reacción',
+                    'Energía liberada en una reacción', 'Energía asociada a la entropía',
+                    'Energía de los productos'
+                ], correcta: 0, explicacion: 'Es la energía mínima que deben alcanzar los reactivos para convertirse en productos.' },
+            { pregunta: '¿Las enzimas afectan la termodinámica de una reacción?', opciones: ['Sí, cambian ΔG',
+                    'No, solo afectan la cinética', 'Sí, cambian ΔH', 'No, afectan la entropía'
+                ], correcta: 1, explicacion: 'Las enzimas disminuyen la energía de activación (cinética), pero no alteran ΔG.' },
+            { pregunta: '¿Qué significa que una reacción esté en equilibrio?', opciones: ['ΔG = 0', 'ΔG < 0',
+                    'ΔG > 0', 'ΔH = 0'
+                ], correcta: 0, explicacion: 'En equilibrio, ΔG = 0 y no hay cambio neto.' },
+            { pregunta: '¿Qué es la entalpía de formación estándar?', opciones: ['ΔH cuando se forma 1 mol de compuesto a partir de elementos en su estado estándar',
+                    'ΔH de cualquier reacción', 'ΔH a volumen constante', 'ΔH de combustión'
+                ], correcta: 0, explicacion: 'Es el cambio de entalpía cuando se forma 1 mol de un compuesto a partir de sus elementos en condiciones estándar.' },
+            { pregunta: 'En el cuerpo humano, ¿qué proceso es exotérmico?', opciones: ['La digestión de alimentos',
+                    'La síntesis de proteínas', 'La sudoración', 'La fotosíntesis'
+                ], correcta: 0, explicacion: 'La digestión de alimentos libera calor (exotérmica).' },
+            { pregunta: 'En el cuerpo humano, ¿qué proceso es endotérmico?', opciones: ['La sudoración',
+                    'La respiración celular', 'La contracción muscular', 'La digestión'
+                ], correcta: 0, explicacion: 'La sudoración absorbe calor del cuerpo (endotérmica).' },
+            { pregunta: '¿Qué es la termorregulación?', opciones: [
+                    'Mantenimiento de la temperatura corporal', 'Regulación de la presión arterial',
+                    'Control del pH sanguíneo', 'Regulación de la glucosa'
+                ], correcta: 0, explicacion: 'La termorregulación mantiene la temperatura del cuerpo dentro de un rango óptimo.' },
+            { pregunta: '¿Qué mide la energía libre de Gibbs estándar de formación?', opciones: [
+                    'ΔG cuando se forma 1 mol de compuesto a partir de elementos en estado estándar',
+                    'ΔG de cualquier reacción', 'ΔG a volumen constante', 'ΔG de combustión'
+                ], correcta: 0, explicacion: 'Es el cambio de energía libre cuando se forma 1 mol de un compuesto a partir de sus elementos en condiciones estándar.' },
+            { pregunta: '¿Cuál es la condición para que una reacción sea espontánea a alta temperatura?', opciones: [
+                    'ΔH > 0 y ΔS > 0', 'ΔH < 0 y ΔS < 0', 'ΔH > 0 y ΔS < 0', 'ΔH < 0 y ΔS > 0'
+                ], correcta: 0, explicacion: 'Si ΔH > 0 y ΔS > 0, la reacción es espontánea a altas temperaturas (TΔS > ΔH).' }
+        ];
+
+        let preguntasActuales = [];
+        let quizIndex = 0;
+        let quizAciertos = 0;
+        let quizRespondidas = 0;
+
+        function cargarQuiz() {
+            const shuffled = [...preguntasBase];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            preguntasActuales = shuffled.slice(0, 10);
+            quizIndex = 0;
+            quizAciertos = 0;
+            quizRespondidas = 0;
+            mostrarPregunta();
+        }
+
+        function mostrarPregunta() {
+            const container = document.getElementById('quiz-container');
+            if (quizIndex >= preguntasActuales.length) {
+                const total = preguntasActuales.length;
+                const pct = Math.round(quizAciertos / total * 100);
+                let msg = pct >= 80 ? '🎉 ¡Excelente!' : (pct >= 60 ? '💪 ¡Bien, sigue practicando!' :
+                    '📚 Revisa los conceptos y vuelve a intentarlo.');
+                container.innerHTML = `
+                    <div class="quiz-container" style="text-align:center;">
+                        <h3 style="color:var(--eq-gold);">¡Ronda completada!</h3>
+                        <p style="font-size:1.5rem;">✅ ${quizAciertos} de ${total} correctas</p>
+                        <p>Precisión: ${pct}%</p>
+                        <p>${msg}</p>
+                        <button class="calc-button" onclick="cargarQuiz()" style="margin-top:1.5rem;">🔄 Nueva ronda</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = preguntasActuales[quizIndex];
+            const opcionesHtml = q.opciones.map((opt, idx) =>
+                `<button class="quiz-option" onclick="responderPregunta(${quizIndex}, ${idx}, this)">${opt}</button>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="quiz-container">
+                    <div class="quiz-progress">
+                        <span>Pregunta ${quizIndex+1} de ${preguntasActuales.length}</span>
+                        <span>✅ ${quizAciertos} correctas</span>
+                    </div>
+                    <div class="quiz-question">${q.pregunta}</div>
+                    <div class="quiz-options">${opcionesHtml}</div>
+                    <div class="quiz-feedback" id="feedback-actual"></div>
+                </div>
+            `;
+        }
+
+        function responderPregunta(idx, opcionSeleccionada, btn) {
+            const q = preguntasActuales[idx];
+            const fb = document.getElementById('feedback-actual');
+            const opts = btn.parentElement.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.disabled = true);
+
+            const correcta = q.correcta;
+            if (opcionSeleccionada === correcta) {
+                btn.classList.add('correct');
+                quizAciertos++;
+                fb.innerHTML = '<span style="color:#4caf50;font-weight:bold;">✅ ¡Correcto!</span> ' + q.explicacion;
+                fb.style.background = '#e8f5e9';
+            } else {
+                btn.classList.add('incorrect');
+                opts[correcta].classList.add('correct');
+                fb.innerHTML = '<span style="color:#f44336;font-weight:bold;">❌ Incorrecto</span> ' + q.explicacion;
+                fb.style.background = '#ffebee';
+            }
+            fb.style.display = 'block';
+            quizRespondidas++;
+
+            setTimeout(() => {
+                quizIndex++;
+                mostrarPregunta();
+            }, 2000);
+        }
+
+        // ============================================================
+        //  INICIALIZACIÓN
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            fcRenderCard();
+            cargarQuiz();
+            // Mostrar primera subpestaña de herramientas
+            document.querySelector('#herramientas-tabs .tab.active')?.click();
+        });
+
+        console.log('=== IMÁGENES PNG REQUERIDAS PARA LA CLASE 9 ===');
+        console.log('1. Logo-EQ.png                   → Logo de EQ');
+        console.log('2. termodinamica-salud.png       → Imagen general: metabolismo, termómetro, etc.');
+        console.log('3. sistema-entorno.png           → Diagrama de sistema y entorno');
+        console.log('4. diagrama-entalpia.png         → Gráfico de entalpía para reacciones endotérmica/exotérmica');
+        console.log('5. entropia-estados.png          → Sólido, líquido, gas con niveles de entropía');
+        console.log('6. energia-libre.png             → Gráfico de ΔG y espontaneidad');
+        console.log('7. metabolismo.png               → Esquema del metabolismo celular');
+        console.log('8. termorregulacion.png          → Ilustración de termorregulación (sudoración, fiebre)');
+        console.log('9. enzimas.png                   → Reacción enzimática con energía de activación');
+        console.log('Coloca estos archivos en la misma carpeta que este HTML.');
+    </script>
+</body>
+</html>
